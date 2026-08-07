@@ -1,0 +1,20 @@
+<div style="max-width: 800px;">
+  <h2 style="margin-bottom: 30px; font-size: 20px;">Настройки сайта</h2>
+  
+  <form method="POST" action="/admin/settings">
+    <div class="form-group">
+      <label class="form-label" for="site_title">Название сайта</label>
+      <input type="text" id="site_title" name="site_title" class="form-input" value="<%= siteTitle %>" required>
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label" for="navbar_links">Ссылки навигации (JSON)</label>
+      <textarea id="navbar_links" name="navbar_links" class="form-textarea" rows="10"><%= navbarLinks %></textarea>
+      <small style="color: #888; font-size: 12px;">
+        Формат: [{"label": "Главная", "href": "/"}, {"label": "Категории", "href": "/categories"}]
+      </small>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Сохранить настройки</button>
+  </form>
+</div>

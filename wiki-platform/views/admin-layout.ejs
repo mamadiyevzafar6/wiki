@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header-content">
+      <a href="/" class="logo">Wiki Competitions</a>
+      <nav class="nav">
+        <% (navbarLinks || []).forEach(function(link) { %>
+          <a href="<%= link.href %>"><%= link.label %></a>
+        <% }); %>
+      </nav>
+    </div>
+  </header>
+  
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-title">Админ-панель</div>
+      <nav class="admin-nav">
+        <a href="/admin/dashboard" class="<%= active === 'dashboard' ? 'active' : '' %>">Панель управления</a>
+        <a href="/admin/programs" class="<%= active === 'programs' ? 'active' : '' %>">Программы</a>
+        <a href="/admin/categories" class="<%= active === 'categories' ? 'active' : '' %>">Категории</a>
+        <a href="/admin/countries" class="<%= active === 'countries' ? 'active' : '' %>">Страны</a>
+        <a href="/admin/users" class="<%= active === 'users' ? 'active' : '' %>">Пользователи</a>
+        <a href="/admin/settings" class="<%= active === 'settings' ? 'active' : '' %>">Настройки</a>
+        <a href="/admin/change-password">Сменить пароль</a>
+        <a href="/admin/logout">Выход</a>
+      </nav>
+    </aside>
+    
+    <main class="admin-main">
+      <div class="admin-header">
+        <h1 class="admin-title"><%= title %></h1>
+        <div class="admin-user">
+          <%= user.username %> (<%= user.role %>)
+        </div>
+      </div>
+      
+      <%- body %>
+    </main>
+  </div>
+</body>
+</html>

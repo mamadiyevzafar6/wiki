@@ -1,0 +1,32 @@
+<div class="container">
+  <h1 class="program-title"><%= program.title %></h1>
+  
+  <div class="program-header">
+    <div class="program-meta">
+      <% if (program.category_name) { %>
+        <div class="program-meta-item">
+          <strong>Категория:</strong>
+          <a href="/category/<%= program.category_slug %>"><%= program.category_name %></a>
+        </div>
+      <% } %>
+      
+      <% if (program.country_name) { %>
+        <div class="program-meta-item">
+          <strong>Страна:</strong>
+          <a href="/country/<%= program.country_slug %>"><%= program.flag_icon_url || '' %> <%= program.country_name %></a>
+        </div>
+      <% } %>
+      
+      <% if (program.deadline_date) { %>
+        <div class="program-meta-item">
+          <strong>Дедлайн:</strong>
+          <%= new Date(program.deadline_date).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+        </div>
+      <% } %>
+    </div>
+  </div>
+  
+  <div class="program-content">
+    <%- htmlContent %>
+  </div>
+</div>

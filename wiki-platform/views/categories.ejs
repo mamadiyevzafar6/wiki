@@ -1,0 +1,20 @@
+<div class="container">
+  <h1 class="section-title">Категории</h1>
+  
+  <% if (categories.length > 0) { %>
+    <div class="grid">
+      <% categories.forEach(function(category) { %>
+        <div class="card">
+          <h3 class="card-title">
+            <a href="/category/<%= category.slug %>"><%= category.name %></a>
+          </h3>
+          <% if (category.description) { %>
+            <p class="card-content"><%= category.description %></p>
+          <% } %>
+        </div>
+      <% }); %>
+    </div>
+  <% } else { %>
+    <p>Категории пока не добавлены.</p>
+  <% } %>
+</div>

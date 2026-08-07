@@ -1,0 +1,63 @@
+<div class="container">
+  <h1 class="section-title">Поиск: <%= query %></h1>
+  
+  <% if (results.programs.length > 0 || results.categories.length > 0 || results.countries.length > 0) { %>
+    
+    <% if (results.programs.length > 0) { %>
+      <h2 class="section-title" style="margin-top: 40px;">Программы</h2>
+      <div class="grid">
+        <% results.programs.forEach(function(program) { %>
+          <div class="card">
+            <h3 class="card-title">
+              <a href="/program/<%= program.slug %>"><%= program.title %></a>
+            </h3>
+            <div class="card-meta">
+              <% if (program.category_name) { %>
+                <span><%= program.category_name %></span>
+              <% } %>
+              <% if (program.country_name) { %>
+                <% if (program.category_name) { %> • <% } %>
+                <span><%= program.flag_icon_url || '' %> <%= program.country_name %></span>
+              <% } %>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    <% } %>
+    
+    <% if (results.categories.length > 0) { %>
+      <h2 class="section-title" style="margin-top: 40px;">Категории</h2>
+      <div class="grid">
+        <% results.categories.forEach(function(category) { %>
+          <div class="card">
+            <h3 class="card-title">
+              <a href="/category/<%= category.slug %>"><%= category.name %></a>
+            </h3>
+            <% if (category.description) { %>
+              <p class="card-content"><%= category.description %></p>
+            <% } %>
+          </div>
+        <% }); %>
+      </div>
+    <% } %>
+    
+    <% if (results.countries.length > 0) { %>
+      <h2 class="section-title" style="margin-top: 40px;">Страны</h2>
+      <div class="grid">
+        <% results.countries.forEach(function(country) { %>
+          <a href="/country/<%= country.slug %>" class="country-card">
+            <span class="country-flag"><%= country.flag_icon_url || '🌍' %></span>
+            <span class="country-name"><%= country.name %></span>
+          </a>
+        <% }); %>
+      </div>
+    <% } %>
+    
+  <% } else { %>
+    <p style="margin-top: 40px;">Ничего не найдено по запросу "<%= query %>"</p>
+  <% } %>
+  
+  <p class="mt-20">
+    <a href="/">← Вернуться на главную</a>
+  </p>
+</div>

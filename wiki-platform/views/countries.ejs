@@ -1,0 +1,21 @@
+<div class="container">
+  <h1 class="section-title">Страны</h1>
+  
+  <% if (countries.length > 0) { %>
+    <div class="grid">
+      <% countries.forEach(function(country) { %>
+        <a href="/country/<%= country.slug %>" class="country-card">
+          <span class="country-flag"><%= country.flag_icon_url || '🌍' %></span>
+          <span class="country-name">
+            <%= country.name %>
+            <% if (country.description) { %>
+              <p style="font-size: 13px; color: #888; margin-top: 5px;"><%= country.description %></p>
+            <% } %>
+          </span>
+        </a>
+      <% }); %>
+    </div>
+  <% } else { %>
+    <p>Страны пока не добавлены.</p>
+  <% } %>
+</div>

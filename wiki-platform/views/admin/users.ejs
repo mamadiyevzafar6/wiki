@@ -1,0 +1,81 @@
+<div style="display: flex; gap: 20px; margin-bottom: 30px;">
+  <button type="button" class="btn btn-primary" onclick="showCreateUser()">+ Добавить пользователя</button>
+</div>
+
+<!-- Create User Form -->
+<div id="create-user-form" style="display: none; max-width: 500px; margin-bottom: 30px; padding: 20px; border: 1px solid #e0e0e0;">
+  <h3 style="margin-bottom: 20px; font-size: 18px;">Новый пользователь</h3>
+  <form method="POST" action="/admin/users">
+    <input type="hidden" name="action" value="create">
+    <div class="form-group">
+      <label class="form-label" for="new_username">Логин *</label>
+      <input type="text" id="new_username" name="username" class="form-input" required>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="new_password">Пароль *</label>
+      <input type="password" id="new_password" name="password" class="form-input" minlength="6" required>
+      <small style="color: #888; font-size: 12px;">Минимум 6 символов</small>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="new_role">Роль</label>
+      <select id="new_role" name="role" class="form-select">
+        <option value="admin">Admin</option>
+        <option value="superadmin">Super Admin</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Создать</button>
+    <button type="button" class="btn" onclick="hideCreateUser()">Отмена</button>
+  </form>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Логин</th>
+      <th>Роль</th>
+      <th>Требуется смена пароля</th>
+      <th>Создан</th>
+      <th>Действия</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (users.length > 0) { %>
+      <% users.forEach(function(user) { %>
+        <tr>
+          <td><%= user.id %></td>
+          <td><%= user.username %></td>
+          <td><%= user.role %></td>
+          <td>
+            <% if (user.must_change_password) { %>
+              <span style="color: #dc3545;">Да</span>
+            <% } else { %>
+              <span style="color: #28a745;">Нет</span>
+            <% } %>
+          </td>
+          <td><%= new Date(user.created_at).toLocaleDateString('ru-RU') %></td>
+          <td class="table-actions">
+            <form method="POST" action="/admin/users" style="display: inline;" onsubmit="return confirm('Удалить пользователя?');">
+              <input type="hidden" name="action" value="delete">
+              <input type="hidden" name="id" value="<%= user.id %>">
+              <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+            </form>
+          </td>
+        </tr>
+      <% }); %>
+    <% } else { %>
+      <tr>
+        <td colspan="6" style="text-align: center; color: #888;">Пользователи не найдены</td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
+<script>
+function showCreateUser() {
+  document.getElementById('create-user-form').style.display = 'block';
+}
+function hideCreateUser() {
+  document.getElementById('create-user-form').style.display = 'none';
+}
+</script>

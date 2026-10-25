@@ -1,0 +1,109 @@
+<div style="display: flex; gap: 20px; margin-bottom: 30px;">
+  <button type="button" class="btn btn-primary" onclick="showCreateCountry()">+ Добавить страну</button>
+</div>
+
+<!-- Create Country Form -->
+<div id="create-country-form" style="display: none; max-width: 600px; margin-bottom: 30px; padding: 20px; border: 1px solid #e0e0e0;">
+  <h3 style="margin-bottom: 20px; font-size: 18px;">Новая страна</h3>
+  <form method="POST" action="/admin/countries">
+    <input type="hidden" name="action" value="create">
+    <div class="form-group">
+      <label class="form-label" for="country_name">Название *</label>
+      <input type="text" id="country_name" name="name" class="form-input" required>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="country_slug">Slug</label>
+      <input type="text" id="country_slug" name="slug" class="form-input" placeholder="Оставите пустым — сгенерируется автоматически">
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="country_flag">Иконка флага (emoji)</label>
+      <input type="text" id="country_flag" name="flag_icon_url" class="form-input" placeholder="🇺🇸">
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="country_description">Описание</label>
+      <textarea id="country_description" name="description" class="form-textarea" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Создать</button>
+    <button type="button" class="btn" onclick="hideCreateCountry()">Отмена</button>
+  </form>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Флаг</th>
+      <th>Название</th>
+      <th>Slug</th>
+      <th>Описание</th>
+      <th>Действия</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (countries.length > 0) { %>
+      <% countries.forEach(function(country) { %>
+        <tr>
+          <td style="font-size: 24px;"><%= country.flag_icon_url || '—' %></td>
+          <td><%= country.name %></td>
+          <td><code><%= country.slug %></code></td>
+          <td><%= country.description || '—' %></td>
+          <td class="table-actions">
+            <button type="button" class="btn btn-sm" onclick="editCountry(<%= country.id %>, '<%= country.name %>', '<%= country.slug %>', '<%= country.flag_icon_url || '' %>', '<%= country.description || '' %>')">Ред.</button>
+            <form method="POST" action="/admin/countries" style="display: inline;" onsubmit="return confirm('Удалить страну?');">
+              <input type="hidden" name="action" value="delete">
+              <input type="hidden" name="id" value="<%= country.id %>">
+              <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+            </form>
+          </td>
+        </tr>
+      <% }); %>
+    <% } else { %>
+      <tr>
+        <td colspan="5" style="text-align: center; color: #888;">Страны не добавлены</td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
+<!-- Edit Country Modal (inline) -->
+<div id="edit-country-form" style="display: none; max-width: 600px; margin-top: 30px; padding: 20px; border: 1px solid #e0e0e0;">
+  <h3 style="margin-bottom: 20px; font-size: 18px;">Редактировать страну</h3>
+  <form method="POST" action="/admin/countries">
+    <input type="hidden" name="action" value="update">
+    <input type="hidden" name="id" id="edit_country_id">
+    <div class="form-group">
+      <label class="form-label" for="edit_country_name">Название *</label>
+      <input type="text" id="edit_country_name" name="name" class="form-input" required>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="edit_country_slug">Slug</label>
+      <input type="text" id="edit_country_slug" name="slug" class="form-input">
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="edit_country_flag">Иконка флага</label>
+      <input type="text" id="edit_country_flag" name="flag_icon_url" class="form-input">
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="edit_country_description">Описание</label>
+      <textarea id="edit_country_description" name="description" class="form-textarea" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <button type="button" class="btn" onclick="document.getElementById('edit-country-form').style.display='none'">Отмена</button>
+  </form>
+</div>
+
+<script>
+function showCreateCountry() {
+  document.getElementById('create-country-form').style.display = 'block';
+}
+function hideCreateCountry() {
+  document.getElementById('create-country-form').style.display = 'none';
+}
+function editCountry(id, name, slug, flag, description) {
+  document.getElementById('edit_country_id').value = id;
+  document.getElementById('edit_country_name').value = name;
+  document.getElementById('edit_country_slug').value = slug;
+  document.getElementById('edit_country_flag').value = flag;
+  document.getElementById('edit_country_description').value = description;
+  document.getElementById('edit-country-form').style.display = 'block';
+}
+</script>

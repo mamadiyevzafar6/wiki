@@ -1,0 +1,82 @@
+<div class="hero">
+  <div class="container">
+    <h1>Глобальный каталог грантов, стипендий и соревнований</h1>
+    
+    <div class="search-container" style="position: relative;">
+      <input 
+        type="text" 
+        id="search-input" 
+        class="search-input" 
+        placeholder="Поиск программ, стран, категорий..."
+        autocomplete="off"
+      >
+      <div id="search-results" class="search-results"></div>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Последние добавленные программы</h2>
+    
+    <% if (programs.length > 0) { %>
+      <div class="grid">
+        <% programs.forEach(function(program) { %>
+          <div class="card">
+            <h3 class="card-title">
+              <a href="/program/<%= program.slug %>"><%= program.title %></a>
+            </h3>
+            <div class="card-meta">
+              <% if (program.category_name) { %>
+                <span><%= program.category_name %></span>
+                <% if (program.country_name) { %> • <% } %>
+              <% } %>
+              <% if (program.country_name) { %>
+                <span><%= program.flag_icon_url || '' %> <%= program.country_name %></span>
+              <% } %>
+              <% if (program.deadline_date) { %>
+                <br>Дедлайн: <%= new Date(program.deadline_date).toLocaleDateString('ru-RU') %>
+              <% } %>
+            </div>
+            <% if (program.contentPreview) { %>
+              <div class="card-content">
+                <%- program.contentPreview %>
+              </div>
+            <% } %>
+          </div>
+        <% }); %>
+      </div>
+    <% } else { %>
+      <p>Пока нет добавленных программ.</p>
+    <% } %>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Категории</h2>
+    
+    <div class="grid">
+      <% categories.forEach(function(category) { %>
+        <a href="/category/<%= category.slug %>" class="category-card">
+          <span class="category-name"><%= category.name %></span>
+        </a>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Страны</h2>
+    
+    <div class="grid">
+      <% countries.forEach(function(country) { %>
+        <a href="/country/<%= country.slug %>" class="country-card">
+          <span class="country-flag"><%= country.flag_icon_url || '🌍' %></span>
+          <span class="country-name"><%= country.name %></span>
+        </a>
+      <% }); %>
+    </div>
+  </div>
+</section>

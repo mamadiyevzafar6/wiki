@@ -1,0 +1,29 @@
+<div class="container">
+  <h1 class="section-title"><%= category.name %></h1>
+  
+  <% if (category.description) { %>
+    <p style="margin-bottom: 30px;"><%= category.description %></p>
+  <% } %>
+  
+  <% if (category.programs && category.programs.length > 0) { %>
+    <div class="grid">
+      <% category.programs.forEach(function(program) { %>
+        <div class="card">
+          <h3 class="card-title">
+            <a href="/program/<%= program.slug %>"><%= program.title %></a>
+          </h3>
+          <div class="card-meta">
+            <% if (program.country_name) { %>
+              <span><%= program.flag_icon_url || '' %> <%= program.country_name %></span>
+            <% } %>
+            <% if (program.deadline_date) { %>
+              <br>Дедлайн: <%= new Date(program.deadline_date).toLocaleDateString('ru-RU') %>
+            <% } %>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  <% } else { %>
+    <p>В этой категории пока нет программ.</p>
+  <% } %>
+</div>

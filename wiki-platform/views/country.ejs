@@ -1,0 +1,29 @@
+<div class="container">
+  <h1 class="section-title"><%= country.name %></h1>
+  
+  <% if (country.description) { %>
+    <p style="margin-bottom: 30px;"><%= country.description %></p>
+  <% } %>
+  
+  <% if (country.programs && country.programs.length > 0) { %>
+    <div class="grid">
+      <% country.programs.forEach(function(program) { %>
+        <div class="card">
+          <h3 class="card-title">
+            <a href="/program/<%= program.slug %>"><%= program.title %></a>
+          </h3>
+          <div class="card-meta">
+            <% if (program.category_name) { %>
+              <span><%= program.category_name %></span>
+            <% } %>
+            <% if (program.deadline_date) { %>
+              <br>Дедлайн: <%= new Date(program.deadline_date).toLocaleDateString('ru-RU') %>
+            <% } %>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  <% } else { %>
+    <p>В этой стране пока нет программ.</p>
+  <% } %>
+</div>

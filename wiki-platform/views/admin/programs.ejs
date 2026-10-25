@@ -1,0 +1,45 @@
+<div style="margin-bottom: 20px;">
+  <a href="/admin/programs/new" class="btn btn-primary">+ Добавить программу</a>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Название</th>
+      <th>Категория</th>
+      <th>Страна</th>
+      <th>Дедлайн</th>
+      <th>Статус</th>
+      <th>Действия</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (programs.length > 0) { %>
+      <% programs.forEach(function(program) { %>
+        <tr>
+          <td><%= program.title %></td>
+          <td><%= program.category_name || '—' %></td>
+          <td><%= program.country_name || '—' %></td>
+          <td><%= program.deadline_date ? new Date(program.deadline_date).toLocaleDateString('ru-RU') : '—' %></td>
+          <td>
+            <% if (program.is_published) { %>
+              <span style="color: #28a745;">Опубликовано</span>
+            <% } else { %>
+              <span style="color: #888;">Черновик</span>
+            <% } %>
+          </td>
+          <td class="table-actions">
+            <a href="/admin/programs/<%= program.id %>/edit" class="btn btn-sm">Ред.</a>
+            <form method="POST" action="/admin/programs/<%= program.id %>/delete" style="display: inline;" onsubmit="return confirm('Удалить программу?');">
+              <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+            </form>
+          </td>
+        </tr>
+      <% }); %>
+    <% } else { %>
+      <tr>
+        <td colspan="6" style="text-align: center; color: #888;">Программы не добавлены</td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
